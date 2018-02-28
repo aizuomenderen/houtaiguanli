@@ -1,6 +1,6 @@
 <template>
   <div>
-    注册-购物
+公共头部组件
   </div>
 </template>
 
