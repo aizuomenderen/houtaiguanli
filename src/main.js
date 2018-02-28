@@ -4,7 +4,7 @@ import App from './component/App.vue'
 
 import vueRouter from './router'  // 自动导入该目录下的index.js
 
-import ElementUI from 'element-ui'
+import ElementUI from 'element-ui'//这是引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'
 
 import 'normalize.css'
@@ -12,7 +12,8 @@ import 'normalize.css'
 import axios from "axios";//不是vue插件，导入之后只能在当前模块使用
 import api, {domain} from "./js/api.js";//导入有名字的内容
 
-// import './less/index.less'
+
+import './less/index.less'//这是引入less文件
 
 Vue.use(ElementUI)
 
