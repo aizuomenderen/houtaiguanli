@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <!-- 公共头部 -->
-    <app-header></app-header>
-    <!-- 公共左侧 -->
-    <app-aside></app-aside>
-    <!-- 后台管理 -->
-    <router-view></router-view>
+  <div class="admin">
+
+    <el-container>
+      <el-header>Header</el-header>
+      <el-container class="admin_content">
+        <el-aside width="200px">Aside</el-aside>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -15,15 +19,30 @@ import Header from "./subcom/Header.vue";
 import Aside from "./subcom/Aside.vue";
 
 export default {
-// 注册子组件
-components: {
-  appHeader:Header,
-  appAside:Aside
-}
-
+  // 注册子组件
+  components: {
+    appHeader: Header,
+    appAside: Aside
+  }
 };
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.admin{
+  height: 100%;
+}
+.el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+  }
+  .el-container{
+    height: 100%;
+    background-color: #D3DCE6;
+  }
+  .el-main {
+    background-color: pink;
+    color: #333;
+  }
+  
 </style>
