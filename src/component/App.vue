@@ -20,8 +20,11 @@ export default {
       val: "vue脚手架测试",
       value2: null,//五角星
      color1: '#409EFF',//   颜色
-    };
-  }
+    }
+  },
+     created () {
+      this.$http.get(this.$api.logout).then(()=>console.log('退出'))
+    }
 };
 </script>
 
