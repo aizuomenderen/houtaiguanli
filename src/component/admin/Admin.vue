@@ -2,9 +2,16 @@
   <div class="admin">
 
     <el-container>
-      <el-header>Header</el-header>
+      <!-- 头部 -->
+      <el-header>
+        <app-header></app-header>
+      </el-header>
+      <!-- 左侧导航 -->
       <el-container class="admin_content">
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="200px">
+          <app-aside></app-aside>
+        </el-aside>
+        <!-- 变化的后台管理    -->
         <el-main>
           <router-view></router-view>
         </el-main>
@@ -38,7 +45,7 @@ export default {
   }
   .el-container{
     height: 100%;
-    background-color: #D3DCE6;
+    // background-color: #D3DCE6;
   }
   .el-main {
     background-color: pink;

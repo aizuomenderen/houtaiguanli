@@ -49,11 +49,13 @@
       login(){
         this.$http.post(this.$api.login,this.ruleForm2).then((res)=>{
           if(res.data.status==0){
-            this.$alert('登录成功');
+            // this.$alert('登录成功');
             this.$alert('登录成功', '提示内容', {//第一个参数是文本内容，第二个是标题，第三个是配置对象
-              confirmButtonText: '确定',
+              // confirmButtonText: '确定',
           callback: ()=> {
-          this.$router.push({name:'admin'});
+            //保存用户姓名
+            localStorage.setItem('uname',res.data.message.uname);
+          this.$router.push({name:'admin'});// 使用了路由插件之后, 组件实例就拥有了该对象, 对象有一个push方法, 可以进行路由跳转
           }
         });
           }else{
@@ -61,12 +63,6 @@
           }
         });
       },
-
-
-    
-
-
-
       submitForm(formName) {
         this.$refs[formName].validate(valid => {
           if (valid) {
