@@ -5,53 +5,24 @@
       <!-- <el-menu :default-openeds="['1', '3']"> -->
       <el-menu default-active="2" class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
         <!-- 需要打开就el-submenu 如果index等于一样的，那就是打开一个就会全部都打开了-->
-        <el-submenu index="1">
+        <!-- 导航列表，key属性用于for循环渲染时性能优化，index属性必须设置不一样的值，这样才能在点击的时候，所以的才能不展开 -->
+        <el-submenu :index="item.title" v-for="item in menuList" :key="item.title">
           <!-- 导航title -->
           <template slot="title">
-            <i class="el-icon-message"></i>学员问题汇总</template>
-          <el-menu-item-group> <!--??可以注释掉？-->
-            <el-menu-item index="1-1">
+            <i class="el-icon-message"></i>{{item.title}}</template>
+          <el-menu-item-group>
+            <!--??可以注释掉？-->
+            <!-- <el-menu-item index="1-2">
+              <i class="el-icon-document"></i>类别管理</el-menu-item>     写成下面的方式自动生成-->
+            <el-menu-item :index="subItem.title" v-for="subItem in item.children" :key="subItem.title">
               <i class="el-icon-document"></i>
-              内容管理</el-menu-item>
-            <el-menu-item index="1-2">
-              <i class="el-icon-document"></i>类别管理</el-menu-item>
-            <el-menu-item index="1-3">
-              <i class="el-icon-document"></i>评论管理</el-menu-item>
+              <!-- 每个title都是一个a链接，可以点击，所以使用router-link，要配合使用to属性 -->
+              <router-link :to="subItem.path">{{subItem.title}}</router-link>
+            </el-menu-item>
+
           </el-menu-item-group>
         </el-submenu>
 
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-message"></i>前端常用功能</template>
-          <el-menu-item-group>
-            <!-- <template slot="title">分组一</template> -->
-            <el-menu-item index="2-1">内容管理</el-menu-item>
-            <el-menu-item index="2-2">类别管理</el-menu-item>
-            <el-menu-item index="2-3">评论管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-message"></i>重难点专区</template>
-          <el-menu-item-group>
-            <!-- <template slot="title">分组一</template> -->
-            <el-menu-item index="3-1">内容管理</el-menu-item>
-            <el-menu-item index="3-2">类别管理</el-menu-item>
-            <el-menu-item index="3-3">评论管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-
-        <el-submenu index="4">
-          <template slot="title">
-            <i class="el-icon-message"></i>资源下载</template>
-          <el-menu-item-group>
-            <!-- <template slot="title">分组一</template> -->
-            <el-menu-item index="4-1">内容管理</el-menu-item>
-            <el-menu-item index="4-2">类别管理</el-menu-item>
-            <el-menu-item index="4-3">评论管理</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
       </el-menu>
     </el-aside>
     <!-- </el-container> -->
@@ -59,14 +30,66 @@
 </template>
 
 <script>
-export default {};
+export default {
+  // {title:'前端技术'},
+  data() {
+    return {
+      menuList: [
+        {
+          title: "学生问题",
+          children: [
+            { title: "类别管理", path: "/" },
+            { title: "内容管理", path: "/" },
+            { title: "评论管理管理", path: "/" }
+          ]
+        },
+        {
+          title: "前端技术",
+          children: [
+            { title: "类别管理", path: "/" },
+            { title: "内容管理", path: "/" },
+            { title: "评论管理管理", path: "/" }
+          ]
+        },
+        {
+          title: "重难点专区",
+          children: [
+            { title: "类别管理", path: "/" },
+            { title: "内容管理", path: "/" },
+            { title: "评论管理管理", path: "/" }
+          ]
+        },
+        {
+          title: "资源下载",
+          children: [
+            { title: "类别管理", path: "/" },
+            { title: "内容管理", path: "/" },
+            { title: "评论管理管理", path: "/" }
+          ]
+        },
+        {
+          title: "购物商场",
+          children: [
+            { title: "类别管理", path: "/" },
+            { title: "内容管理", path: "/" },
+            { title: "评论管理管理", path: "/" }
+          ]
+        },
+        {
+          title: "订单管理",
+          children: [{ title: "类别管理", path: "/" }]
+        }
+      ]
+    };
+  }
+};
 </script>
 
 <style scoped lang="less">
 .aside {
   height: 100%;
   background-color: #545c64;
-  text-align: center;
+  text-align: left;
 }
 
 .el-aside {
@@ -74,5 +97,13 @@ export default {};
 }
 .el-menu {
   border-right: none;
+}
+//左侧信封图标
+.el-submenu__title i{
+  color: pink;
+}
+// 左侧分类图标
+.el-icon-document{
+  color: #fff;
 }
 </style>

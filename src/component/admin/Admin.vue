@@ -1,6 +1,5 @@
 <template>
   <div class="admin">
-
     <el-container>
       <!-- 头部 -->
       <el-header>
@@ -24,7 +23,6 @@
 // 引入
 import Header from "./subcom/Header.vue";
 import Aside from "./subcom/Aside.vue";
-
 export default {
   // 注册子组件
   components: {
@@ -33,7 +31,6 @@ export default {
   }
 };
 </script>
-
 <style scoped lang="less">
 .admin{
   height: 100%;
