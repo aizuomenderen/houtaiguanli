@@ -40,5 +40,9 @@
 <style scoped>
 .header{
   text-align: right;
+
+}
+.el-header{
+  padding: 0;
 }
 </style>

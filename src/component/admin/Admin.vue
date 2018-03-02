@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// 引入
+// 引入公共的左侧与头部
 import Header from "./subcom/Header.vue";
 import Aside from "./subcom/Aside.vue";
 export default {
@@ -36,8 +36,7 @@ export default {
   height: 100%;
 }
 .el-header {
-    background-color: #B3C0D1;
-    color: #333;
+    color: #b3c6f0;
     line-height: 60px;
   }
   .el-container{
@@ -45,8 +44,8 @@ export default {
     // background-color: #D3DCE6;
   }
   .el-main {
-    background-color: pink;
+    // background-color: #a9c8ec;
     color: #333;
   }
-  
+
 </style>
