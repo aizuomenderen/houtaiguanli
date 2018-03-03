@@ -12,7 +12,7 @@
     <section class="list_btns">
       <!-- plain是input中的调节颜色，可以让颜色变浅一点 -->
       <el-button type="info" plain icon="el-icon-plus" size="mini">新增</el-button>
-      <el-button type="primary" plain icon="el-icon-check" size="mini">全选</el-button>
+      <el-button type="primary" plain icon="el-icon-check" size="mini" @click="all">全选</el-button>
       <el-button type="danger" plain icon="el-icon-delete" @click="del" size="mini">删除</el-button>
       <el-input placeholder="请输入内容" size="mini" prefix-icon="el-icon-search" v-model="apiQuery.searchvalue" @blur="search">
       </el-input>
@@ -27,7 +27,13 @@
 
         <el-table-column label="标题">
           <template slot-scope="scope">
-            <router-link :to="{ name: 'goodsDetail' }"> {{ scope.row.title }}</router-link>
+            <el-tooltip class="item" effect="dark" content="Right Center 提示文字" placement="right">
+              <router-link :to="{ path:`/admin/goods/detail/${scope.row.id}` }"> {{ scope.row.title }}</router-link>
+              <div slot="content">
+                <img :src="scope.row.imgurl" alt="详细图片" style="width:160px">
+              </div>
+            </el-tooltip>
+
           </template>
         </el-table-column>
         <el-table-column prop="categoryname" label="所属类别" width="100">
@@ -41,12 +47,16 @@
 
         <el-table-column label="属性" width="100" show-overflow-tooltip>
           <template slot-scope="scope">
-            三个图标
+            <!-- 图标变色 -->
+            <!-- 使用三元表达式来判断从后台获取回来的数据是不是更新变色  scope.row.is_slide和这个is_top和is_hot是从后台获取数据-->
+            <span :class="['el-icon-picture-outline',scope.row.is_slide==1?'active':'']"></span>
+            <span :class="['el-icon-star-off',scope.row.is_top==1?'active':'']"></span>
+            <span :class="['el-icon-circle-check-outline',scope.row.is_hot==1?'active':'']"></span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="80" show-overflow-tooltip>
           <template slot-scope="scope">
-            <router-link :to="{name:'goodsDetail'}"> 修改</router-link>
+            <router-link :to="{path:`/admin/goods/detail/${scope.row.id}`}"> 修改</router-link>
           </template>
         </el-table-column>
       </el-table>
@@ -83,14 +93,17 @@ export default {
       this.getGoodsData();
     },
     getGoodsData() {
-      let api =`${this.$api.gsList}?pageIndex=${this.apiQuery.pageIndex}&pageSize=${this.apiQuery.pageSize
-        }&searchvalue=${this.apiQuery.searchvalue}`;
-        
-        this.$http.get(api).then(res => {
-          if (res.data.status == 0) {
-            this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
-          }
-        });
+      let api = `${this.$api.gsList}?pageIndex=${
+        this.apiQuery.pageIndex
+      }&pageSize=${this.apiQuery.pageSize}&searchvalue=${
+        this.apiQuery.searchvalue
+      }`;
+
+      this.$http.get(api).then(res => {
+        if (res.data.status == 0) {
+          this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
+        }
+      });
       // this.$http.get(this.$api.gsList + "?pageIndex=1&pageSize=10").then(res => {
       //     if (res.data.status == 0) {
       //       this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
@@ -110,6 +123,11 @@ export default {
         }
       });
     },
+    all() {
+      //全选按钮
+      document.querySelector(".el-checkbox__original").click(); //是两个下划线
+    },
+
     toggleSelection(rows) {
       if (rows) {
         rows.forEach(row => {
@@ -141,5 +159,10 @@ export default {
 .list_btns .el-input {
   width: 200px;
   float: right;
+}
+[class^="el-icon"].active {
+  //设置图标变色，让选中的图标根据后台数据相对应的渲染
+  color: #85caf8;
+  font-weight: bold;
 }
 </style>
