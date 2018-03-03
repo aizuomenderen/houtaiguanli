@@ -61,7 +61,9 @@
         </el-table-column>
       </el-table>
     </template>
-    <!-- 分页 -->
+    <!-- 分页       total用来设定数据总的条数，current-page用来设定当前页，page-size用来设定当前每页的数量 -->
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="apiQuery.pageIndex" :page-sizes="[5, 10, 15, 20]" :page-size="apiQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="apiQuery.total">
+    </el-pagination>
   </div>
 </template>
 
@@ -72,8 +74,9 @@ export default {
       apiQuery: {
         //搜索
         pageIndex: 1,
-        pageSize: 10,
-        searchvalue: ""
+        pageSize: 5,
+        searchvalue: "",
+        total: 0
       },
       selectedGoodsList: [], //被选中的商品数据
       tableData3: [
@@ -102,13 +105,9 @@ export default {
       this.$http.get(api).then(res => {
         if (res.data.status == 0) {
           this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
+          this.apiQuery.total = res.data.totalcount;
         }
       });
-      // this.$http.get(this.$api.gsList + "?pageIndex=1&pageSize=10").then(res => {
-      //     if (res.data.status == 0) {
-      //       this.tableData3 = res.data.message; // 把请求回来的数据覆盖原data数量, 表格就会自动刷新
-      //     }
-      //   });
     },
     change(selection) {
       this.selectedGoodsList = selection; //监听多选框状态的变化，参数可以拿到被选商品的数据
@@ -127,18 +126,15 @@ export default {
       //全选按钮
       document.querySelector(".el-checkbox__original").click(); //是两个下划线
     },
-
-    toggleSelection(rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.multipleTable.clearSelection();
-      }
+    handleSizeChange(size) {//括号里面的size是要带上的，否则没有定义，报错
+      //监听每页数量
+      this.apiQuery.pageSize = size; // 接收到新的每页数量, 赋值给data里的数量, 分页组件就会刷新视图
+      this.getGoodsData(); // 除了分页组件视图要变更, 表格也要重新获取数据渲染
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    handleCurrentChange(page) {
+      //监听页码
+      this.apiQuery.pageIndex = page; // 接收到新的页面, 赋值给data里的数量, 分页组件就会刷新视图
+      this.getGoodsData();
     }
   },
   created() {
